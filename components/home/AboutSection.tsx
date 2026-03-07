@@ -48,6 +48,7 @@ export default function AboutSection() {
 
       {/* Terminal window */}
       <div
+        ref={section.ref}
         className="relative z-10 w-full max-w-6xl border border-[#1F2937] bg-[#0d0d0d] shadow-[0_0_80px_rgba(0,201,167,0.06)]"
         style={reveal(section.visible, 0)}
       >
@@ -76,6 +77,7 @@ export default function AboutSection() {
 
             {/* Photo */}
             <div
+              ref={image.ref}
               className="group relative"
               style={reveal(image.visible, 60)}
             >
@@ -94,6 +96,7 @@ export default function AboutSection() {
 
             {/* Meta */}
             <div
+              ref={meta.ref}
               className="mt-auto space-y-3"
               style={reveal(meta.visible, 120)}
             >
@@ -134,7 +137,7 @@ export default function AboutSection() {
               <div className="pl-10 space-y-8">
 
                 {/* Heading */}
-                <div className="space-y-1" style={reveal(heading.visible, 0)}>
+                <div ref={heading.ref} className="space-y-1" style={reveal(heading.visible, 0)}>
                   <div className="flex items-center gap-2 text-xs text-[#9d4edd]">
                     <ChevronRight size={13} />
                     <span className="text-slate-500">export const</span>
@@ -152,18 +155,18 @@ export default function AboutSection() {
                 
                 {/* Bio */}
                 <div className="pl-4 space-y-4 max-w-xl text-sm leading-relaxed text-slate-400">
-                  <p style={reveal(bio1.visible, 60)}>
+                  <p ref={bio1.ref} style={reveal(bio1.visible, 60)}>
                     I’m a{" "}
                     <span className="text-white font-medium">Full-Stack Developer & AI Builder</span>{" "}
                     based in Morocco, creating useful digital products that blend{" "}
                     <span className="text-[#00C9A7]">modern_web</span>{" "}
                     with smart solutions.
                   </p>
-                  <p style={reveal(bio2.visible, 100)}>
+                  <p ref={bio2.ref} style={reveal(bio2.visible, 100)}>
                     I enjoy building web apps, AI features, and smooth user experiences that help
                     turn ideas into real, practical tools.
                   </p>
-                  <p className="italic text-slate-600" style={reveal(comment.visible, 140)}>
+                  <p ref={comment.ref} className="italic text-slate-600" style={reveal(comment.visible, 140)}>
                     {"// I like building things that are simple, useful, and made to last."}
                   </p>
                 </div>
@@ -171,7 +174,7 @@ export default function AboutSection() {
 
 
                 {/* CTAs */}
-                <div className="flex flex-wrap gap-3 pl-4" style={reveal(ctas.visible, 160)}>
+                <div ref={ctas.ref} className="flex flex-wrap gap-3 pl-4" style={reveal(ctas.visible, 160)}>
                   <GlowButton href="/contact" variant="primary" size="sm" icon={<ArrowRight size={14} />}>
                     Init Contact
                   </GlowButton>

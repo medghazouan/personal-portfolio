@@ -21,9 +21,9 @@ export default function DecryptAnimation({
   const frameRef  = useRef<ReturnType<typeof setInterval> | null>(null);
   const startRef  = useRef<number | null>(null);
 
+  // Handle animation loop
   useEffect(() => {
     if (!play) {
-      setDisplayed(text);
       return;
     }
 
@@ -55,6 +55,16 @@ export default function DecryptAnimation({
     return () => {
       if (frameRef.current) clearInterval(frameRef.current);
     };
+  }, [play, text]);
+
+  // Handle reset when animation stops
+  useEffect(() => {
+    if (!play) {
+      setDisplayed(text);
+      if (frameRef.current) {
+        clearInterval(frameRef.current);
+      }
+    }
   }, [play, text]);
 
   return (

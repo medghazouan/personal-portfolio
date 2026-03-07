@@ -1,26 +1,241 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   DESIGN TOKENS — Tailwind v4 uses @theme, NOT tailwind.config
+   ============================================================ */
+@theme {
+  /* Colors */
+  --color-primary:       #00C9A7;
+  --color-primary-dim:   #00957d;
+  --color-primary-glow:  rgba(0, 201, 167, 0.15);
+  --color-accent:        #9d4edd;
+  --color-accent-glow:   rgba(157, 78, 221, 0.2);
+
+  --color-bg:            #0a0a0a;
+  --color-surface:       #111827;
+  --color-surface-2:     #1a1d1d;
+  --color-border:        #1F2937;
+  --color-border-hover:  #00C9A7;
+
+  /* Typography */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono:    "JetBrains Mono", monospace;
+
+  /* Shadows / Glows */
+  --shadow-glow:        0 0 12px rgba(0, 201, 167, 0.2);
+  --shadow-glow-strong: 0 0 20px rgba(0, 201, 167, 0.4);
+  --shadow-accent:      0 0 15px rgba(157, 78, 221, 0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================================
+   BASE RESET
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg);
+  color: #e2e8f0;
+  font-family: var(--font-display);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-primary);
+  color: #0a0a0a;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: #0f2320; }
+::-webkit-scrollbar-thumb { background: #1f4b45; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 0.53s step-end infinite;
+}
+
+/* CRT scanlines overlay */
+@keyframes flicker {
+  0%   { opacity: 0.97; }
+  5%   { opacity: 0.94; }
+  10%  { opacity: 0.98; }
+  50%  { opacity: 0.96; }
+  100% { opacity: 1; }
+}
+.crt-flicker {
+  animation: flicker 6s infinite;
+}
+
+/* Ping / pulse for status dots */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+.animate-ping {
+  animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Fade up — used for staggered reveals */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+/* Decrypt glitch — used on project card unlock */
+@keyframes glitch {
+  0%  { clip-path: inset(40% 0 61% 0); transform: translate(-4px, 0); }
+  20% { clip-path: inset(92% 0 1%  0); transform: translate(4px,  0); }
+  40% { clip-path: inset(43% 0 1%  0); transform: translate(-2px, 0); }
+  60% { clip-path: inset(25% 0 58% 0); transform: translate(2px,  0); }
+  80% { clip-path: inset(54% 0 7%  0); transform: translate(-4px, 0); }
+  100%{ clip-path: inset(58% 0 43% 0); transform: translate(0,    0); }
+}
+.animate-glitch {
+  animation: glitch 0.4s ease-in-out;
+}
+
+/* Proficiency bar fill */
+@keyframes barFill {
+  from { width: 0%; }
+}
+.animate-bar-fill {
+  animation: barFill 1s ease-out forwards;
+}
+
+/* ============================================================
+   SCANLINE OVERLAY (applied to body via JS component)
+   ============================================================ */
+.scanline-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.15) 50%,
+    rgba(0, 0, 0, 0.15)
+  );
+  background-size: 100% 4px;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.12;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+/* Glow border on hover — used on all interactive cards */
+.glow-border {
+  border: 1px solid var(--color-border);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.glow-border:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Glow text */
+.glow-text {
+  text-shadow: 0 0 10px rgba(0, 201, 167, 0.5);
+}
+
+/* Terminal prompt prefix */
+.term-prompt::before {
+  content: "$ ";
+  color: var(--color-primary);
+  opacity: 0.6;
+}
+
+/* Bracket nav links */
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  transition: color 200ms ease;
+}
+.nav-link::before { content: "[ "; }
+.nav-link::after  { content: " ]"; }
+.nav-link:hover, .nav-link.active {
+  color: var(--color-primary);
+}
+
+/* Card base */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 300ms ease;
+}
+.card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
+}
+
+/* GlowButton */
+.glow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+.glow-btn-primary {
+  background: var(--color-primary);
+  color: #0a0a0a;
+  border-radius: 4px;
+}
+.glow-btn-primary:hover {
+  box-shadow: var(--shadow-glow-strong);
+  filter: brightness(1.1);
+}
+.glow-btn-outline {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  border-radius: 4px;
+}
+.glow-btn-outline:hover {
+  background: rgba(0, 201, 167, 0.1);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Scroll indicator dot bounce */
+@keyframes scrollDot {
+  0%   { transform: translateY(0);    opacity: 1; }
+  50%  { transform: translateY(10px); opacity: 0.3; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+
+/* Chevron cascade fade */
+@keyframes chevronFade {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.9;  }
 }

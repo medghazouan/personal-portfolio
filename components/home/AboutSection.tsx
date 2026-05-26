@@ -156,19 +156,16 @@ export default function AboutSection() {
                 {/* Bio */}
                 <div className="pl-4 space-y-4 max-w-xl text-sm leading-relaxed text-slate-400">
                   <p ref={bio1.ref} style={reveal(bio1.visible, 60)}>
-                    I’m a{" "}
                     <span className="text-white font-medium">Full-Stack Developer & AI Builder</span>{" "}
-                    based in Morocco, creating useful digital products that blend{" "}
-                    <span className="text-[#00C9A7]">modern_web</span>{" "}
-                    with smart solutions.
+                    based in Morocco. I specialize in React, Node.js, and LLM integrations — turning complex ideas into clean, fast products.
                   </p>
                   <p ref={bio2.ref} style={reveal(bio2.visible, 100)}>
-                    I enjoy building web apps, AI features, and smooth user experiences that help
-                    turn ideas into real, practical tools.
+                    <span className="text-[#00C9A7] font-medium">&gt; Stack:</span> React · Next.js · Python <br />
+                    <span className="text-slate-500 mt-2 block">
+                      6+ projects shipped · 2 years experience · Available worldwide
+                    </span>
                   </p>
-                  <p ref={comment.ref} className="italic text-slate-600" style={reveal(comment.visible, 140)}>
-                    {"// I like building things that are simple, useful, and made to last."}
-                  </p>
+                  
                 </div>
 
 
@@ -189,7 +186,7 @@ export default function AboutSection() {
             {/* Status bar */}
             <div className="flex items-center justify-between bg-[#00C9A7] px-4 py-1 text-[10px] font-bold uppercase text-[#0a0a0a]">
               <span>Ln 10, Col 32</span>
-              <span>CLEARANCE_LEVEL: 5</span>
+              <span>AVAILABLE_FOR_HIRE: TRUE</span>
               <span>TypeScript JSX</span>
             </div>
 

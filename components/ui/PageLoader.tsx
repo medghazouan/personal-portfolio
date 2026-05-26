@@ -159,7 +159,7 @@ export default function PageLoader() {
 
       {/* Operator tag */}
       <p className="mt-5 text-[10px] text-slate-700 uppercase tracking-[0.2em] font-mono">
-        OPERATOR: GHAZOUAN // CLEARANCE_LEVEL: 5
+        OPERATOR: GHAZOUAN // AVAILABLE_FOR_HIRE: TRUE
       </p>
     </div>
   );

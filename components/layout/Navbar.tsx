@@ -1,283 +1,83 @@
 "use client";
 
-
-
 import Link from "next/link";
-
 import { usePathname } from "next/navigation";
-
-import { Terminal, Menu, X } from "lucide-react";
-
+import {
+  Home,
+  FolderKanban,
+  Wrench,
+  ScrollText,
+} from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
-
-
 const NAV_LINKS = [
-
-  { href: "/",         label: "HOME"     },
-
-  { href: "/projects", label: "PROJECTS" },
-
-  { href: "/arsenal",  label: "ARSENAL"  },
-
-  { href: "/logs",     label: "LOGS"     },
-
+  { href: "/", label: "HOME", icon: Home },
+  { href: "/projects", label: "PROJECTS", icon: FolderKanban },
+  { href: "/arsenal", label: "ARSENAL", icon: Wrench },
+  { href: "/logs", label: "LOGS", icon: ScrollText },
 ] as const;
 
-
-
 export default function Navbar() {
-
-  const pathname              = usePathname();
-
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const [hidden,     setHidden]     = useState(false);
-
-  const lastY                 = useRef(0);
-
-
-
-  /* Hide on scroll down, reveal on scroll up */
+  const pathname = usePathname();
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
-
     const onScroll = () => {
-
-      const y     = window.scrollY;
-
+      const y = window.scrollY;
       const delta = y - lastY.current;
 
-
-
-      // Only trigger after scrolling past 80px (ignore hero top)
-
       if (y < 80) {
-
         setHidden(false);
-
       } else if (delta > 4) {
-
-        // Scrolling down — hide
-
         setHidden(true);
-
-        setMobileOpen(false);
-
       } else if (delta < -4) {
-
-        // Scrolling up — show
-
         setHidden(false);
-
       }
 
-
-
       lastY.current = y;
-
     };
 
-
-
     window.addEventListener("scroll", onScroll, { passive: true });
-
     return () => window.removeEventListener("scroll", onScroll);
-
   }, []);
 
-
-
   return (
-
     <header
-
-      className="sticky top-0 z-50 w-full border-b border-[#1F2937] bg-[#0a0a0a]/80 backdrop-blur-md"
-
-      style={{
-
-        transform:  hidden ? "translateY(-100%)" : "translateY(0)",
-
-        transition: "transform 200ms ease",
-
-      }}
-
+      className={`fixed z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] bottom-6 left-1/2 -translate-x-1/2 md:top-1/2 md:bottom-auto md:left-6 md:translate-x-0 md:-translate-y-1/2 ${
+        hidden 
+          ? "translate-y-32 md:-translate-y-1/2 md:-translate-x-32 opacity-0" 
+          : "translate-y-0 md:-translate-y-1/2 opacity-100"
+      }`}
     >
-
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-
-
-
-        {/* Brand */}
-
-        <Link href="/" className="group flex items-center gap-3">
-
-          <Terminal size={18} className="text-[#00C9A7] animate-pulse" />
-
-          <span className="font-mono text-xs uppercase tracking-widest text-[#00C9A7]">
-
-            SYSTEM_STATUS:{" "}
-
-            <span className="font-bold text-white transition-colors group-hover:text-[#00C9A7]">
-
-              ONLINE
-
-            </span>
-
-          </span>
-
-        </Link>
-
-
-
-        {/* Desktop nav */}
-
-        <nav className="hidden items-center gap-8 md:flex">
-
-          {NAV_LINKS.map(({ href, label }) => {
-
-            const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
-
-            return (
-
-              <Link
-
-                key={href}
-
-                href={href}
-
-                className={`nav-link font-mono ${active ? "active" : ""}`}
-
-              >
-
-                {label}
-
-              </Link>
-
-            );
-
-          })}
-
-        </nav>
-
-
-
-        {/* CTA + status */}
-
-        <div className="hidden items-center gap-4 md:flex">
-
-          <div className="flex items-center gap-2">
-
-            <div className="relative flex h-2 w-2">
-
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-
-            </div>
-
-            <span className="font-mono text-[10px] uppercase tracking-widest text-emerald-400">
-
-              SYS.ONLINE
-
-            </span>
-
-          </div>
-
-          <Link href="/contact" className="glow-btn glow-btn-outline px-4 py-2 text-xs">
-
-            INIT_CONTACT →
-
-          </Link>
-
-        </div>
-
-
-
-        {/* Mobile toggle */}
-
-        <button
-
-          className="text-[#00C9A7] md:hidden"
-
-          onClick={() => setMobileOpen((v) => !v)}
-
-          aria-label="Toggle menu"
-
-        >
-
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-
-        </button>
-
-      </div>
-
-
-
-      {/* Mobile menu */}
-
-      <div
-
-        className="overflow-hidden border-t border-[#1F2937] bg-[#0a0a0a] md:hidden"
-
-        style={{
-
-          maxHeight:  mobileOpen ? "300px" : "0",
-
-          transition: "max-height 200ms ease",
-
-        }}
-
-      >
-
-        <div className="flex flex-col gap-4 px-6 py-4">
-
-          {NAV_LINKS.map(({ href, label }) => {
-
-            const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
-
-            return (
-
-              <Link
-
-                key={href}
-
-                href={href}
-
-                onClick={() => setMobileOpen(false)}
-
-                className={`nav-link font-mono ${active ? "active" : ""} text-sm`}
-
-              >
-
-                {label}
-
-              </Link>
-
-            );
-
-          })}
-
-          <Link
-
-            href="/contact"
-
-            onClick={() => setMobileOpen(false)}
-
-            className="glow-btn glow-btn-outline mt-2 self-start px-4 py-2 text-xs"
-
-          >
-
-            INIT_CONTACT →
-
-          </Link>
-
-        </div>
-
-      </div>
-
+      <nav className="flex flex-row md:flex-col items-center gap-2 md:gap-6 rounded-[40px] border border-white/[0.12] bg-white/[0.04] p-2 md:p-2.5 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-2xl">
+        {NAV_LINKS.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href;
+
+          return (
+            <Link
+              key={href}
+              href={href}
+              aria-label={label}
+              className={`group relative flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-[24px] transition-all duration-300 ease-out ${
+                active
+                  ? "bg-white/[0.08] text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_4px_12px_rgba(0,0,0,0.2)]"
+                  : "text-white/50 hover:bg-white/[0.03] hover:text-white/80"
+              }`}
+            >
+              <Icon
+                size={24}
+                strokeWidth={1.75}
+                className={`transition-all duration-300 ${
+                  active 
+                    ? "scale-100 fill-white text-white" 
+                    : "scale-95 opacity-80 group-hover:scale-100 group-hover:opacity-100"
+                }`}
+              />
+            </Link>
+          );
+        })}
+      </nav>
     </header>
-
   );
-
 }

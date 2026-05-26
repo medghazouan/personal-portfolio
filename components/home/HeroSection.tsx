@@ -1,6 +1,5 @@
 "use client";
 
-import { useTypingAnimation } from "./TypingAnimation";
 import GlowButton from "@/components/ui/GlowButton";
 import { Code2, ArrowRight } from "lucide-react";
 
@@ -11,8 +10,6 @@ const BOOT_LINES = [
 ];
 
 export default function HeroSection() {
-  const typedWord = useTypingAnimation();
-
   return (
     /*
      * h-[calc(100vh-4rem)] accounts for the 4rem (h-16) sticky Navbar
@@ -63,14 +60,13 @@ export default function HeroSection() {
           </h1>
         </div>
 
-        {/* Typing line */}
+        {/* Tagline */}
         <div className="animate-fade-up [animation-delay:380ms] [animation-fill-mode:both]">
           <p className="text-lg md:text-xl text-slate-300 font-light">
-            I build systems that{" "}
+            I turn ideas into{" "}
             <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00C9A7] to-[#00a892]">
-              {typedWord}
+              fast, intelligent web products
             </span>
-            <span className="inline-block w-[3px] h-[1em] align-middle ml-0.5 animate-blink rounded-sm bg-[#00C9A7] shadow-[0_0_10px_rgba(0,201,167,0.8)]" />
           </p>
         </div>
 
@@ -78,8 +74,8 @@ export default function HeroSection() {
         <p className="max-w-lg text-slate-500 text-sm leading-relaxed animate-fade-up [animation-delay:480ms] [animation-fill-mode:both]">
           Most of what I build is{" "}
           <span className="text-slate-300 line-through decoration-[#00C9A7]/60">classified</span>
-          {" "}carefully engineered. The projects below are the ones I can show you —{" "}
-          <span className="text-[#00C9A7]">they&apos;re worth seeing.</span>
+          . What you see below is the declassified version {" "}
+          <span className="text-[#00C9A7]">and it&apos;s worth your time.</span>
         </p>
 
         {/* CTAs */}

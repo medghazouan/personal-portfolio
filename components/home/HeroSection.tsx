@@ -12,11 +12,10 @@ const BOOT_LINES = [
 export default function HeroSection() {
   return (
     /*
-     * h-[calc(100vh-4rem)] accounts for the 4rem (h-16) sticky Navbar
-     * so the hero fills exactly the remaining visible viewport.
-     * sticky top-16 (not top-0) aligns it flush under the Navbar.
+     * Use min-h-[100svh] for reliable full screen height on mobile.
+     * We center the content vertically but add bottom padding to avoid the mobile dock.
      */
-    <section className="sticky top-16 h-[calc(100vh-4rem)] w-full flex flex-col items-center justify-center px-4 md:px-6 overflow-hidden bg-[#0a0a0a]">
+    <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center px-4 md:px-6 overflow-hidden bg-[#0a0a0a]">
 
       {/* Ambient glow */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center">
@@ -34,7 +33,7 @@ export default function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-4xl flex flex-col items-center text-center gap-4 md:gap-5 pb-[10vh] md:pb-[14vh]">
+      <div className="relative z-10 w-full max-w-4xl flex flex-col items-center text-center gap-4 md:gap-5 pt-8 md:pt-0 pb-28 md:pb-0">
 
 
         {/* Boot lines */}

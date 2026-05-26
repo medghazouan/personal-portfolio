@@ -37,13 +37,13 @@ export default function HeroSection() {
       <div className="relative z-10 w-full max-w-4xl flex flex-col items-center text-center gap-4 md:gap-5 pb-[10vh] md:pb-[14vh]">
 
 
-        {/* Boot lines — desktop only */}
-        <div className="hidden md:flex flex-col items-start gap-0.5 self-start animate-fade-up [animation-delay:0ms] [animation-fill-mode:both] font-mono text-[11px]">
+        {/* Boot lines */}
+        <div className="flex flex-col items-center md:items-start gap-0.5 self-center md:self-start animate-fade-up [animation-delay:0ms] [animation-fill-mode:both] font-mono text-[10px] sm:text-[11px] mb-4 md:mb-0 w-full max-w-[280px] md:max-w-none text-left">
           {BOOT_LINES.map((line) => (
-            <p key={line.time} className="text-[#00C9A7]/40">
-              <span className="text-slate-700 mr-3">{line.time}</span>
-              {line.text}
-              {line.status && <span className="text-emerald-400 font-bold">{line.status}</span>}
+            <p key={line.time} className="text-[#00C9A7]/40 w-full flex justify-between md:justify-start">
+              <span className="text-slate-700 md:mr-3">{line.time}</span>
+              <span className="flex-1 md:flex-none text-left ml-2 md:ml-0">{line.text}</span>
+              {line.status && <span className="text-emerald-400 font-bold ml-2 md:ml-0">{line.status}</span>}
             </p>
           ))}
         </div>

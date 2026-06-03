@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Terminal } from "lucide-react";
 import ProjectGrid from "@/components/projects/Projectgrid";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title:       "Projects",
   description: "Classified intel archive — full-stack and AI projects by DEV_SYSTEM.",

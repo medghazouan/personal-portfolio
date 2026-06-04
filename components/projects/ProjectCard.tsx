@@ -144,17 +144,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           {project.description}
         </p>
 
-        {/* Long description — only when unlocked */}
-        {showFull && project.longDesc && (
-          <div className="border-l-2 border-[var(--color-primary)]/40 pl-3">
-            <p className="text-[11px] uppercase tracking-wider text-slate-500 mb-1"
-              style={{ fontFamily: "var(--font-mono)" }}>
-              PROBLEM PARAMETERS
-            </p>
-            <p className="text-sm text-slate-400 leading-relaxed">{project.longDesc}</p>
-          </div>
-        )}
-
+        
         {/* Tags */}
         {showFull && project.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-1">
